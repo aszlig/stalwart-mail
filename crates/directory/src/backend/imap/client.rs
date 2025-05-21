@@ -178,7 +178,6 @@ impl<T: AsyncRead + AsyncWrite + Unpin> ImapClient<T> {
 
 #[cfg(test)]
 mod test {
-    use mail_send::smtp::tls::build_tls_connector;
     use smtp_proto::{AUTH_OAUTHBEARER, AUTH_PLAIN, AUTH_XOAUTH, AUTH_XOAUTH2};
     use std::time::Duration;
 
@@ -187,7 +186,7 @@ mod test {
     #[ignore]
     #[tokio::test]
     async fn imap_auth() {
-        let connector = build_tls_connector(false);
+        let connector = utils::rustls_client_connector(false);
 
         let mut client = ImapClient::connect(
             "imap.gmail.com:993",

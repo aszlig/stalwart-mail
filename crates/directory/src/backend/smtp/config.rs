@@ -6,7 +6,7 @@
 
 use std::time::Duration;
 
-use mail_send::{SmtpClientBuilder, smtp::tls::build_tls_connector};
+use mail_send::SmtpClientBuilder;
 use utils::config::{Config, utils::AsKey};
 
 use crate::core::config::build_pool;
@@ -30,7 +30,7 @@ impl SmtpDirectory {
                 timeout: config
                     .property_or_default((&prefix, "timeout"), "30s")
                     .unwrap_or_else(|| Duration::from_secs(30)),
-                tls_connector: build_tls_connector(
+                tls_connector: utils::rustls_client_connector(
                     config
                         .property_or_default((&prefix, "tls.allow-invalid-certs"), "false")
                         .unwrap_or_default(),

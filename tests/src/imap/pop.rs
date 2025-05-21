@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-SEL
  */
 
-use mail_send::smtp::tls::build_tls_connector;
 use rustls_pki_types::ServerName;
 use std::time::Duration;
 use tokio::{
@@ -204,7 +203,7 @@ pub struct Pop3Connection {
 impl Pop3Connection {
     pub async fn connect() -> Self {
         let (reader, writer) = tokio::io::split(
-            build_tls_connector(true)
+            utils::rustls_client_connector(true)
                 .connect(
                     ServerName::try_from("pop3.example.org").unwrap().to_owned(),
                     TcpStream::connect("127.0.0.1:4110").await.unwrap(),

@@ -16,7 +16,6 @@ use crate::{
 use ahash::{AHashMap, AHashSet};
 use arc_swap::ArcSwap;
 use mail_auth::{MX, Parameters, Txt};
-use mail_send::smtp::tls::build_tls_connector;
 use nlp::bayes::{TokenHash, Weights};
 use parking_lot::RwLock;
 use std::{
@@ -234,8 +233,8 @@ impl Default for Data {
 impl Default for TlsConnectors {
     fn default() -> Self {
         TlsConnectors {
-            pki_verify: build_tls_connector(false),
-            dummy_verify: build_tls_connector(true),
+            pki_verify: utils::rustls_client_connector(false),
+            dummy_verify: utils::rustls_client_connector(true),
         }
     }
 }
